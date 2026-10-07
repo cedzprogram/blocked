@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>This website is blocked</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#05070f;
+  --panel:#0b1224;
+  --panel-2:#101a33;
+  --line:#1f3a5f;
+  --cyan:#2ef2ff;
+  --cyan-dim:#1aa7b3;
+  --alert:#ff3b5c;
+  --amber:#ffc23d;
+  --ok:#3dffa2;
+  --text:#d8e8f5;
+  --muted:#8fa6bd;
+  --fs:17px;
+  --display:'Orbitron','Segoe UI',Arial,sans-serif;
+  --body:'Chakra Petch','Segoe UI',Arial,sans-serif;
+}
+body.hc{
+  --void:#000; --panel:#000; --panel-2:#0a0a0a; --line:#fff;
+  --cyan:#00ffff; --alert:#ff6b81; --amber:#ffe14d; --text:#fff; --muted:#e6e6e6;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:var(--fs)}
+body{
+  margin:0;background:var(--void);color:var(--text);
+  font-family:var(--body);line-height:1.6;min-height:100vh;
+  overflow-x:hidden;
+}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.28;pointer-events:none}
+body::after{ /* scanlines */
+  content:"";position:fixed;inset:0;z-index:50;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);
+}
+body.hc::after,body.calm::after{display:none}
+.wrap{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 20px 60px}
+
+.skip{position:absolute;left:-999px;top:8px;background:var(--cyan);color:#000;padding:8px 14px;z-index:100;font-weight:700}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+
+/* accessibility bar */
+.a11y{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;padding:14px 0}
+.a11y button{
+  font:600 .8rem var(--body);color:var(--text);background:var(--panel);
+  border:1px solid var(--line);padding:6px 12px;cursor:pointer;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+}
+.a11y button:hover,.a11y button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan)}
+
+/* HERO */
+.hero{
+  position:relative;display:grid;grid-template-columns:260px 1fr;gap:34px;align-items:center;
+  padding:34px;margin-top:6px;background:linear-gradient(135deg,rgba(16,26,51,.92),rgba(8,12,26,.92));
+  border:1px solid var(--line);
+  clip-path:polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px);
+  overflow:hidden;
+}
+.hero::before{ /* sweeping scan beam */
+  content:"";position:absolute;left:0;right:0;height:90px;top:-90px;
+  background:linear-gradient(to bottom,transparent,rgba(46,242,255,.16),transparent);
+  animation:beam 5s linear infinite;pointer-events:none;
+}
+@keyframes beam{to{top:100%}}
+.emblem{position:relative;width:240px;height:240px;margin:auto}
+.emblem svg{position:absolute;inset:0;width:100%;height:100%}
+.ring-a{transform-origin:120px 120px;animation:spin 18s linear infinite}
+.ring-b{transform-origin:120px 120px;animation:spin 11s linear infinite reverse}
+.ring-c{transform-origin:120px 120px;animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pulse{animation:pulse 1.6s ease-in-out infinite;transform-origin:120px 120px}
+@keyframes pulse{50%{transform:scale(1.07);opacity:.7}}
+
+.status{
+  display:inline-flex;align-items:center;gap:10px;color:var(--alert);
+  font-weight:700;border:1px solid var(--alert);padding:4px 12px;font-size:.85rem;
+}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--alert);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+
+h1{
+  font-family:var(--display);font-weight:900;margin:14px 0 6px;
+  font-size:clamp(1.7rem,4.6vw,3.1rem);line-height:1.1;position:relative;color:var(--text);
+  letter-spacing:.02em;
+}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;left:0;top:0;width:100%;overflow:hidden;
+}
+.glitch::before{color:var(--cyan);animation:g1 3.2s infinite;clip-path:inset(0 0 55% 0)}
+.glitch::after{color:var(--alert);animation:g2 3.2s infinite;clip-path:inset(55% 0 0 0)}
+@keyframes g1{0%,90%,100%{transform:translate(0)}92%{transform:translate(-4px,1px)}95%{transform:translate(3px,-1px)}}
+@keyframes g2{0%,88%,100%{transform:translate(0)}91%{transform:translate(4px,-1px)}94%{transform:translate(-3px,1px)}}
+body.calm .glitch::before,body.calm .glitch::after{display:none}
+
+.lede{color:var(--muted);max-width:60ch;margin:0 0 16px}
+.target{
+  background:rgba(0,0,0,.45);border:1px dashed var(--cyan-dim);padding:10px 14px;
+  font-family:ui-monospace,Consolas,monospace;font-size:.88rem;word-break:break-all;
+}
+.target b{color:var(--amber)}
+.term{margin-top:12px;font-family:ui-monospace,Consolas,monospace;font-size:.82rem;color:var(--ok);min-height:5.4em}
+.term span{display:block;white-space:nowrap;overflow:hidden}
+.cursor::after{content:"▌";animation:blink 1s steps(2) infinite}
+
+/* sections */
+section{margin-top:44px}
+h2{font-family:var(--display);font-size:1.25rem;margin:0 0 6px;color:var(--cyan);letter-spacing:.04em}
+.sub{color:var(--muted);margin:0 0 18px;max-width:70ch}
+
+/* rules grid */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.rule{
+  background:var(--panel);border:1px solid var(--line);padding:16px 16px 16px 18px;position:relative;
+  border-left:4px solid var(--cyan);
+}
+.rule h3{margin:0 0 4px;font-size:1rem}
+.rule p{margin:0;color:var(--muted);font-size:.92rem}
+.rule.warn{border-left-color:var(--alert)}
+.rule.ok{border-left-color:var(--ok)}
+.rule .ico{font-size:1.4rem;float:right;margin-left:8px}
+
+/* category buttons */
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.tab{
+  font:700 .92rem var(--body);color:var(--text);background:var(--panel);
+  border:1px solid var(--line);padding:10px 16px;cursor:pointer;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  transition:transform .15s,background .15s,border-color .15s;
+}
+.tab:hover{transform:translateY(-2px);border-color:var(--cyan)}
+.tab[aria-selected="true"]{background:var(--cyan);color:#001015;border-color:var(--cyan)}
+.panel{
+  background:linear-gradient(160deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+  padding:24px;display:none;animation:in .35s ease;
+}
+.panel.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+body.calm .panel{animation:none}
+.panel h3{font-family:var(--display);margin:0 0 4px;font-size:1.15rem}
+.panel .head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.sev{font-size:.75rem;font-weight:700;border:1px solid var(--amber);color:var(--amber);padding:2px 9px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.panel h4{margin:16px 0 8px;font-size:.95rem;color:var(--amber)}
+.panel ul.why{margin:0;padding-left:20px;color:var(--text)}
+.panel ul.why li{margin:4px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.chips li{
+  font-family:ui-monospace,Consolas,monospace;font-size:.8rem;background:rgba(46,242,255,.07);
+  border:1px solid var(--line);padding:4px 10px;
+}
+.chips li.hit{border-color:var(--alert);background:rgba(255,59,92,.18);color:#fff;animation:blink 1s steps(2) 4}
+.chips.bad li{border-color:rgba(255,59,92,.6);background:rgba(255,59,92,.08);color:#ffd2da}
+.note{margin-top:16px;border:1px solid var(--ok);color:var(--ok);padding:10px 14px;font-size:.9rem}
+
+/* checker */
+.check{display:flex;gap:10px;flex-wrap:wrap}
+.check input{
+  flex:1 1 260px;background:#000;color:var(--text);border:1px solid var(--cyan-dim);
+  padding:12px 14px;font:1rem ui-monospace,Consolas,monospace;
+}
+.check button{
+  font:700 1rem var(--body);background:var(--cyan);color:#001015;border:0;padding:12px 22px;cursor:pointer;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+}
+#result{margin-top:12px;min-height:1.6em;font-weight:600}
+#result.bad{color:var(--alert)}
+#result.good{color:var(--ok)}
+
+/* reminders */
+.remind{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.remind li{counter-increment:r;background:var(--panel);border:1px solid var(--line);padding:12px 16px 12px 54px;position:relative}
+.remind li::before{
+  content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--cyan);color:var(--cyan);
+  font-family:var(--display);font-size:.8rem;
+}
+
+footer{margin-top:50px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.9rem;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+.clock{font-family:ui-monospace,Consolas,monospace;color:var(--cyan)}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;padding:22px}
+  .emblem{width:180px;height:180px}
+  .cols{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body.calm *,body.calm *::before,body.calm *::after{animation:none!important;transition:none!important}
+</style>
+</head>
+<body>
+<a class="skip" href="#policy">Skip to the policy</a>
+<canvas id="rain" aria-hidden="true"></canvas>
+
+<div class="wrap">
+
+  <div class="a11y" role="toolbar" aria-label="Accessibility options">
+    <button type="button" id="fsDown" aria-label="Make text smaller">A−</button>
+    <button type="button" id="fsUp" aria-label="Make text larger">A+</button>
+    <button type="button" id="hcBtn" aria-pressed="false">High contrast</button>
+    <button type="button" id="calmBtn" aria-pressed="false">Reduce motion</button>
+  </div>
+
+  <header class="hero" role="banner">
+    <div class="emblem" aria-hidden="true">
+      <svg viewBox="0 0 240 240" fill="none">
+        <g class="ring-a"><circle cx="120" cy="120" r="112" stroke="#2ef2ff" stroke-width="2" stroke-dasharray="6 14"/></g>
+        <g class="ring-b"><circle cx="120" cy="120" r="94" stroke="#ff3b5c" stroke-width="3" stroke-dasharray="60 22 8 22"/></g>
+        <g class="ring-c"><polygon points="120,22 205,71 205,169 120,218 35,169 35,71" stroke="#1aa7b3" stroke-width="1.5"/></g>
+        <g class="pulse">
+          <path d="M120 64 L168 82 V120 C168 150 148 170 120 182 C92 170 72 150 72 120 V82 Z" fill="rgba(255,59,92,.12)" stroke="#ff3b5c" stroke-width="3"/>
+          <path d="M100 104 L140 144 M140 104 L100 144" stroke="#ff3b5c" stroke-width="7" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div>
+      <div class="status"><i></i> ACCESS DENIED</div>
+      <h1><span class="glitch" data-text="This website is blocked">This website is blocked</span></h1>
+      <p class="lede">The network monitor stopped this request because the site breaks the network usage policy. Read why below, and pick a category to see the full explanation and the related sites.</p>
+      <div class="target">Blocked address: <b id="blockedUrl">unknown</b></div>
+      <div class="term" id="term" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- QUICK RULES -->
+  <section id="policy" aria-labelledby="rulesTitle">
+    <h2 id="rulesTitle">Network usage policy</h2>
+    <p class="sub">These four rules were set by the administrator. They apply to every device on this network.</p>
+    <div class="rules">
+      <article class="rule warn"><span class="ico" aria-hidden="true">📡</span><h3>No communication with outsiders</h3><p>Chat, messaging, dating, pen-pal, and private email platforms are not allowed.</p></article>
+      <article class="rule warn"><span class="ico" aria-hidden="true">🎬</span><h3>No unrelated videos</h3><p>Video, streaming, and short-video (reels) sites are blocked, including YouTube and similar.</p></article>
+      <article class="rule warn"><span class="ico" aria-hidden="true">🛡️</span><h3>No hacking searches</h3><p>Searching for or visiting hacking material is forbidden by the admin.</p></article>
+      <article class="rule warn"><span class="ico" aria-hidden="true">🚫</span><h3>No adult content or gateways</h3><p>Adult sites and every site that leads to them are blocked.</p></article>
+      <article class="rule ok"><span class="ico" aria-hidden="true">✅</span><h3>Gmail is allowed</h3><p>Gmail is needed for work. Google Chat inside Gmail is still blocked.</p></article>
+    </div>
+  </section>
+
+  <!-- CATEGORY BUTTONS -->
+  <section aria-labelledby="whyTitle">
+    <h2 id="whyTitle">Why was it blocked?</h2>
+    <p class="sub">Select a category. The one that matches your blocked site opens automatically.</p>
+    <div class="tabs" role="tablist" aria-label="Blocked categories" id="tabs"></div>
+    <div id="panels"></div>
+  </section>
+
+  <!-- CHECKER -->
+  <section aria-labelledby="chkTitle">
+    <h2 id="chkTitle">Check a website</h2>
+    <p class="sub">Type a website name to see if it is on the blocked list.</p>
+    <div class="check">
+      <label for="chk" style="position:absolute;left:-999px">Website to check</label>
+      <input id="chk" type="text" placeholder="example: discord.com" autocomplete="off">
+      <button type="button" id="chkBtn">Check site</button>
+    </div>
+    <div id="result" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- REMINDERS -->
+  <section aria-labelledby="remTitle">
+    <h2 id="remTitle">General reminders</h2>
+    <ol class="remind">
+      <li>Use the network only for work or study tasks.</li>
+      <li>Every blocked attempt is logged with the device, the time, and the site.</li>
+      <li>Do not use proxies, VPNs, mirror links, or shortened links to get around a block. These attempts are logged too.</li>
+      <li>Do not share your account or password with anyone outside the organization.</li>
+      <li>If you think a site was blocked by mistake, ask the administrator to review it. Do not try other ways in.</li>
+      <li>Repeated violations are reported to the administrator.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <span>Network Monitor · Policy Enforcement</span>
+    <span class="clock" id="clock" aria-label="Current time"></span>
+  </footer>
+</div>
+
+<script>
+/* ===== POLICY DATA — edit the lists here ===== */
+const CATS = [
+ {
+  id:'comm', label:'Communication', icon:'📡', level:'Strict',
+  title:'Communication platforms',
+  rule:'No communication with outsiders.',
+  why:[
+   'Chatting with people outside the organization is not allowed on this network.',
+   'Private chats, DMs, and anonymous messaging cannot be monitored and can expose personal or company information.',
+   'Pen-pal, dating, and AI chat-roleplay sites are also communication with strangers.',
+   'Only Gmail is allowed because it is needed for work. Google Chat is not.'
+  ],
+  sites:[
+   'facebook.com','messenger.com','instagram.com/direct','interpals.net','spa.interpals.dev',
+   'polybuzz.ai','proton.me/mail','protonmail.com','tuta.com','mail.yahoo.com','outlook.live.com',
+   'icloud.com/mail','zoho.com/mail','gmx.com'
+  ],
+  related:[
+   'whatsapp.com','web.whatsapp.com','telegram.org','web.telegram.org','t.me','discord.com','viber.com',
+   'skype.com','snapchat.com','web.snapchat.com','wechat.com','line.me','signal.org','kik.com','imo.im',
+   'x.com','twitter.com','reddit.com','chat.google.com','hangouts.google.com','omegle.com','ome.tv',
+   'chatroulette.com','tinder.com','bumble.com','badoo.com','meetme.com','hellotalk.com','tandem.net',
+   'penpal.world','slowly.app','character.ai','chai.ml','janitorai.com'
+  ],
+  words:['chat','dm','messenger','penpal','pen pal','dating','meet strangers','video chat','random chat','anonymous chat'],
+  note:'Allowed: mail.google.com (Gmail). Blocked: Google Chat (chat.google.com and the Chat tab in Gmail).'
+ },
+ {
+  id:'video', label:'Videos', icon:'🎬', level:'Strict',
+  title:'Video and streaming platforms',
+  rule:'No watching of unrelated videos.',
+  why:[
+   'Videos that are not related to work or study waste time and network bandwidth.',
+   'Video sites recommend more videos automatically, which leads to long off-task sessions.',
+   'Video comment sections and live chats are also a way to talk with outsiders.'
+  ],
+  sites:[
+   'youtube.com','m.youtube.com','youtu.be','music.youtube.com','youtube-nocookie.com','youtubekids.com',
+   'tiktok.com','vm.tiktok.com'
+  ],
+  related:[
+   'vimeo.com','dailymotion.com','twitch.tv','kick.com','netflix.com','primevideo.com','disneyplus.com',
+   'hulu.com','hbomax.com','iq.com','viu.com','bilibili.com','rumble.com','odysee.com','bitchute.com',
+   'peertube.tv','metacafe.com','veoh.com','9gag.com','imgur.com/gallery','tv.apple.com'
+  ],
+  words:['watch online','full movie','free movies','livestream','stream anime','vlog','funny videos','mukbang','asmr'],
+  note:''
+ },
+ {
+  id:'reels', label:'Reels & Shorts', icon:'📱', level:'Strict',
+  title:'Reels and short-video platforms',
+  rule:'No short-video feeds.',
+  why:[
+   'Short-video feeds scroll endlessly and are designed to keep you watching.',
+   'They are mostly entertainment and have no link to the work.',
+   'Many include comments, duets, and direct messages with strangers.'
+  ],
+  sites:[
+   'tiktok.com','instagram.com/reels','instagram.com/reel','facebook.com/reel','facebook.com/watch',
+   'youtube.com/shorts'
+  ],
+  related:[
+   'snapchat.com/spotlight','likee.video','kwai.com','triller.co','byteview.com','vigovideo.com',
+   'dubsmash.com','vine.co','josh.app','moj.app','roposo.com','lemon8-app.com','capcut.com/templates'
+  ],
+  words:['reels','shorts','tiktok','fyp','duet','trending sounds','viral video','challenge'],
+  note:''
+ },
+ {
+  id:'hack', label:'Hacking', icon:'🛡️', level:'Forbidden',
+  title:'Hacking and bypass material',
+  rule:'No searching about hacking. Forbidden by the admin.',
+  why:[
+   'Hacking tools and tutorials can harm the network, devices, and other people.',
+   'Using them on any system without permission can be illegal.',
+   'Searching for them is flagged even if you only want to “see how it works”.',
+   'Tools that bypass filters, proxies, and unblockers are part of this category.'
+  ],
+  sites:[
+   'hackthebox.com','tryhackme.com','exploit-db.com','hackforums.net','cracked.io','nulled.to',
+   'kali.org','metasploit.com','shodan.io'
+  ],
+  related:[
+   'pastebin.com','ghostbin.com','hackerone.com','hackaday.com','offensive-security.com','sploitus.com',
+   'packetstormsecurity.com','cheatengine.org','unknowncheats.me','mpgh.net','wemod.com','crackstreams.com',
+   'proxysite.com','hide.me/proxy','kproxy.com','croxyproxy.com','vpnbook.com','hidemyass.com',
+   'nordvpn.com','protonvpn.com','windscribe.com','psiphon.ca','torproject.org'
+  ],
+  words:['hack','hacker','hacking tutorial','crack','cracked','keylogger','exploit','ddos','sql injection','phishing kit','password cracker','wifi hack','bypass','unblock','proxy','free robux','cheat engine','jailbreak','spyware'],
+  note:''
+ },
+ {
+  id:'adult', label:'Adult content', icon:'🚫', level:'Forbidden',
+  title:'Adult content and gateway sites',
+  rule:'No adult content. Gateway sites are blocked too.',
+  why:[
+   'Adult content is not appropriate on this network and is not allowed at any time.',
+   'Some sites are not adult sites themselves, but they link to them or show adult content freely. These “gateways” are blocked to stop access before it starts.',
+   'Image search, link shorteners, and proxies can hide where a link really goes.',
+   'Adult-style chat and companion apps are blocked under the communication rule as well.'
+  ],
+  sites:[
+   'onlyfans.com','fansly.com','patreon.com/explore','chaturbate.com','omegle.com','chatroulette.com'
+  ],
+  related:[
+   'reddit.com','x.com','twitter.com','tumblr.com','telegram.org','t.me','discord.com','pinterest.com',
+   'imgur.com','flickr.com','deviantart.com','wattpad.com','archiveofourown.org','fanfiction.net',
+   'bit.ly','tinyurl.com','t.co','cutt.ly','rebrand.ly','is.gd','shorturl.at',
+   'images.google.com (safe search off)','bing.com/images (safe search off)','duckduckgo.com (safe search off)',
+   'character.ai','janitorai.com','polybuzz.ai','chai.ml'
+  ],
+  words:['porn','xxx','nsfw','nude','18+','adult only','explicit','sex chat','erotic','uncensored'],
+  note:'Real adult website addresses are not printed on this page. They are blocked by the network monitor’s adult-content category.'
+ },
+ {
+  id:'unrel', label:'Unrelated sites', icon:'🧩', level:'Restricted',
+  title:'Unrelated and social sites',
+  rule:'Only sites related to the task are allowed.',
+  why:[
+   'These sites are social, entertainment, or personal-use sites that are not part of the work.',
+   'They include story-sharing and design communities where users comment and message each other.',
+   'If you need one of them for a task, ask the administrator for permission first.'
+  ],
+  sites:['wattpad.com','canva.com'],
+  related:[
+   'webnovel.com','royalroad.com','inkitt.com','radish.com','pixiv.net','behance.net','dribbble.com',
+   'pinterest.com','picsart.com','crello.com','vistacreate.com','fotor.com'
+  ],
+  words:['fanfic','read stories','free novels','templates','aesthetic wallpapers'],
+  note:''
+ }
+];
+
+/* ===== RENDER ===== */
+const $ = s => document.querySelector(s);
+const tabs = $('#tabs'), panels = $('#panels');
+const esc = s => s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const chips = (arr,cls='') => `<ul class="chips ${cls}">${arr.map(s=>`<li data-d="${esc(s.split(' ')[0].toLowerCase())}">${esc(s)}</li>`).join('')}</ul>`;
+
+CATS.forEach((c,i)=>{
+  const b = document.createElement('button');
+  b.className='tab'; b.type='button'; b.role='tab';
+  b.id='tab-'+c.id; b.setAttribute('aria-controls','p-'+c.id);
+  b.setAttribute('aria-selected', i===0); b.tabIndex = i===0?0:-1;
+  b.innerHTML = `<span aria-hidden="true">${c.icon}</span> ${c.label}`;
+  b.addEventListener('click',()=>openCat(c.id));
+  tabs.appendChild(b);
+
+  const p = document.createElement('div');
+  p.className='panel'+(i===0?' on':''); p.id='p-'+c.id; p.role='tabpanel';
+  p.setAttribute('aria-labelledby','tab-'+c.id);
+  p.innerHTML = `
+    <div class="head"><h3>${c.icon} ${esc(c.title)}</h3><span class="sev">Level: ${c.level}</span></div>
+    <p><strong>Rule:</strong> ${esc(c.rule)}</p>
+    <div class="cols">
+      <div>
+        <h4>Why is it blocked?</h4>
+        <ul class="why">${c.why.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>
+        <h4>Bad words and search terms that are flagged</h4>
+        ${chips(c.words,'bad')}
+      </div>
+      <div>
+        <h4>Blocked websites</h4>
+        ${chips(c.sites)}
+        <h4>Related sites that are also blocked</h4>
+        ${chips(c.related)}
+      </div>
+    </div>
+    ${c.note?`<div class="note">${esc(c.note)}</div>`:''}`;
+  panels.appendChild(p);
+});
+
+function openCat(id,focus){
+  CATS.forEach(c=>{
+    const on = c.id===id;
+    const t=$('#tab-'+c.id);
+    t.setAttribute('aria-selected',on); t.tabIndex=on?0:-1;
+    $('#p-'+c.id).classList.toggle('on',on);
+    if(on&&focus) t.focus();
+  });
+}
+tabs.addEventListener('keydown',e=>{
+  const ids=CATS.map(c=>c.id); const cur=ids.findIndex(id=>$('#tab-'+id).getAttribute('aria-selected')==='true');
+  if(e.key==='ArrowRight') openCat(ids[(cur+1)%ids.length],true);
+  if(e.key==='ArrowLeft')  openCat(ids[(cur-1+ids.length)%ids.length],true);
+});
+
+/* ===== DETECT BLOCKED SITE ===== */
+function getTarget(){
+  const q=new URLSearchParams(location.search);
+  let raw=q.get('url')||q.get('site')||q.get('u')||'';
+  if(!raw && document.referrer) raw=document.referrer;
+  return raw;
+}
+function host(raw){
+  try{ return new URL(/^https?:\/\//i.test(raw)?raw:'http://'+raw).hostname.replace(/^www\./,'').toLowerCase(); }
+  catch(e){ return raw.toLowerCase().replace(/^www\./,''); }
+}
+function matches(h,entry){
+  const d=entry.toLowerCase().split(/[\/ ]/)[0].replace(/^www\./,'');
+  return h===d || h.endsWith('.'+d);
+}
+function categoriesFor(h){
+  const found=[];
+  CATS.forEach(c=>{ if([...c.sites,...c.related].some(s=>matches(h,s))) found.push(c.id); });
+  return found;
+}
+const raw=getTarget();
+if(raw){
+  $('#blockedUrl').textContent=raw;
+  const h=host(raw), cats=categoriesFor(h);
+  if(cats.length){
+    openCat(cats[0]);
+    document.querySelectorAll('.chips li').forEach(li=>{ if(matches(h,li.dataset.d)) li.classList.add('hit'); });
+  }
+}
+
+/* ===== CHECKER ===== */
+function runCheck(){
+  const v=$('#chk').value.trim(), r=$('#result');
+  if(!v){ r.className=''; r.textContent=''; return; }
+  const h=host(v);
+  if(h==='mail.google.com'||h==='gmail.com'){ r.className='good'; r.textContent='✅ Gmail is allowed. Google Chat is not.'; return; }
+  const cats=categoriesFor(h);
+  if(cats.length){
+    r.className='bad';
+    r.textContent='⛔ '+h+' is blocked under: '+cats.map(id=>CATS.find(c=>c.id===id).label).join(', ');
+    openCat(cats[0]);
+  } else {
+    r.className='good';
+    r.textContent='✔ '+h+' is not on this page’s list. The network monitor may still block it by category.';
+  }
+}
+$('#chkBtn').addEventListener('click',runCheck);
+$('#chk').addEventListener('keydown',e=>{ if(e.key==='Enter') runCheck(); });
+
+/* ===== BOOT TERMINAL (one orchestrated moment) ===== */
+(function(){
+  const lines=[
+    '> intercepting request ........ done',
+    '> matching destination to policy ... match found',
+    '> action: BLOCK · event logged',
+    '> read the policy below'
+  ];
+  const el=$('#term');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduce){ el.innerHTML=lines.map(l=>`<span>${l}</span>`).join(''); return; }
+  let i=0;
+  (function next(){
+    if(i>=lines.length) return;
+    const s=document.createElement('span'); s.className='cursor'; el.appendChild(s);
+    const text=lines[i]; let j=0;
+    const t=setInterval(()=>{
+      s.textContent=text.slice(0,++j);
+      if(j>=text.length){ clearInterval(t); s.classList.remove('cursor'); i++; setTimeout(next,260); }
+    },18);
+  })();
+})();
+
+/* ===== CLOCK ===== */
+(function tick(){
+  $('#clock').textContent=new Date().toLocaleString();
+  setTimeout(tick,1000);
+})();
+
+/* ===== ACCESSIBILITY ===== */
+let fs=17;
+$('#fsUp').onclick=()=>{ fs=Math.min(24,fs+1); document.documentElement.style.setProperty('--fs',fs+'px'); };
+$('#fsDown').onclick=()=>{ fs=Math.max(14,fs-1); document.documentElement.style.setProperty('--fs',fs+'px'); };
+$('#hcBtn').onclick=e=>{ const on=document.body.classList.toggle('hc'); e.target.setAttribute('aria-pressed',on); };
+let calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function setCalm(on){ calm=on; document.body.classList.toggle('calm',on); $('#calmBtn').setAttribute('aria-pressed',on); }
+$('#calmBtn').onclick=()=>setCalm(!calm);
+setCalm(calm);
+
+/* ===== CODE RAIN BACKGROUND ===== */
+(function(){
+  const cv=$('#rain'), ctx=cv.getContext('2d');
+  const glyphs='01アイウエオカキクケコサシスセソ<>/{}[]#$%'.split('');
+  let w,h,cols,drops;
+  function size(){
+    w=cv.width=innerWidth; h=cv.height=innerHeight;
+    cols=Math.floor(w/18); drops=Array.from({length:cols},()=>Math.random()*h/18);
+  }
+  size(); addEventListener('resize',size);
+  function frame(){
+    if(!calm){
+      ctx.fillStyle='rgba(5,7,15,.12)'; ctx.fillRect(0,0,w,h);
+      ctx.font='14px monospace';
+      for(let i=0;i<cols;i++){
+        ctx.fillStyle=Math.random()>.97?'#ffffff':'#2ef2ff';
+        ctx.fillText(glyphs[Math.floor(Math.random()*glyphs.length)],i*18,drops[i]*18);
+        if(drops[i]*18>h&&Math.random()>.975) drops[i]=0;
+        drops[i]+=.6;
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
